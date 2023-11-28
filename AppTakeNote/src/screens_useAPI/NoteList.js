@@ -105,10 +105,7 @@ const Home = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.style3}>
-                <TouchableOpacity onPress={() => {
-                            store.dispatch(addNote(writeNote)); // Dispatch directly the value of writeNote
-                            setData1(store.getState());
-                        }}>
+                <TouchableOpacity onPress={addNote}>
                     <Ionicons name="add-circle-outline" size={80} color="#D9614C" />
                 </TouchableOpacity>
                 
