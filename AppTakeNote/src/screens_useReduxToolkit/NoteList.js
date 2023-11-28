@@ -3,12 +3,25 @@ import React, {useState, useEffect, } from 'react'
 import { Ionicons, MaterialIcons} from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 
-import { addNote, deleteNote,} from '../redux/actions';
-import store from '../redux/stores';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNote, deleteNote } from '../rtk/slice';
+import store from '../rtk/store';
 
 const Home = ({navigation}) => {
     const isFocused = useIsFocused();
     const [editingMode, setEditingMode] = useState(false);
+
+    const dispatch = useDispatch();
+    const notes = useSelector((state) => state.notes);
+    console.log(notes);
+
+    const handleDeleteNote = (index) => {
+        dispatch(deleteNote(index));
+    };
+    
+    const handleAddNote = () => {
+        dispatch(addNote(writeNote)); 
+    };
     useEffect(() => {
 
         navigation.setOptions({
@@ -33,26 +46,18 @@ const Home = ({navigation}) => {
             title: 'Note List',
         });
     }, [editingMode]);
-    useEffect(() => {
-        setData1(store.getState().notes);
-        console.log(store.getState());
-    }, [store.getState().notes, isFocused]);
-    const [data1, setData1] = useState([]);
     const [writeNote, setWriteNote] = useState('');
     return (
     <View style={styles.container}>
         <View style={{}}>
                 <View style={{width: '100%', marginTop: 10, paddingBottom: 100}}>
                 <FlatList
-                    data={data1}
+                    data={notes}
                     scrollEnabled={true}
                     renderItem={({ item, index }) => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginLeft: 15, paddingRight: 25, height: 60, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: 'silver' }}>
                             {editingMode && (
-                                    <TouchableOpacity onPress={() => {
-                                        store.dispatch(deleteNote(index));
-                                        setData1(store.getState().notes);
-                                    }}>
+                                    <TouchableOpacity onPress={() => handleDeleteNote(index)}>
                                         <Ionicons name="remove-circle" size={30} color="red" />
                                     </TouchableOpacity>
                                     )}
@@ -69,10 +74,7 @@ const Home = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.style3}>
-                <TouchableOpacity onPress={() => {
-                            store.dispatch(addNote(writeNote)); // Dispatch directly the value of writeNote
-                            setData1(store.getState());
-                        }}>
+                <TouchableOpacity onPress={handleAddNote}>
                     <Ionicons name="add-circle-outline" size={80} color="#D9614C" />
                 </TouchableOpacity>
                 
