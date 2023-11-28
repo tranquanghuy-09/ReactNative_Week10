@@ -19,6 +19,9 @@ const MainScreen = ({navigation}) => {
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('AppUseReduxToolkit')}>
                     <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>AppUseReduxToolkit</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('AppUseReduxAPI')}>
+                    <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>AppUseReduxAPI</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
